@@ -436,7 +436,9 @@ export default function Road3D() {
         break;
     }
 
-    console.log(`Traffic lights synchronized for ${urgentRoad} road, ${direction} direction`);
+    console.log(
+      `Traffic lights synchronized for ${urgentRoad} road, ${direction} direction`
+    );
   };
 
   useEffect(() => {
@@ -476,68 +478,11 @@ export default function Road3D() {
 
   return (
     <div className="w-full h-screen">
-      <div className="flex flex-col gap-2 absolute md:top-4 md:right-4 md:left-auto h-fit z-10 bottom-2 left-4">
+      <div className="flex flex-col gap-2 absolute top-4 right-4 md:left-auto h-fit z-10">
         {/* Synchronization Status */}
-        {selectedRoad && selectedDirection && selectedRoad !== "intersection" && (
-          <div className="bg-green-100 border border-green-400 p-3 rounded-lg shadow-lg">
-            <h2 className="text-lg font-bold text-green-800 mb-1">🚦 Traffic Lights Synchronized</h2>
-            {/* <p className="text-sm text-green-700">
-              Lights are automatically controlled for urgent {selectedRoad} road traffic.
-              Manual override is disabled.
-            </p> */}
-          </div>
-        )}
 
-        <div className=" bg-white p-4 rounded-lg shadow-lg">
-          <h1 className="text-xl font-bold mb-2">Direction Control</h1>
-          <p className="text-sm text-gray-600 mb-2">
-            Choose the direction you want to turn
-          </p>
-          <div className="space-y-1 text-sm">
-            <Select
-              className="max-w-xs"
-              items={directionOptions}
-              label="Turn Direction"
-              placeholder="Select direction"
-              selectedKeys={selectedDirection ? [selectedDirection] : []}
-              onSelectionChange={(keys) => {
-                const selectedKey = Array.from(keys)[0] as string;
-                handleDirectionSelect(selectedKey);
-              }}
-              isDisabled={!selectedRoad || selectedRoad === "intersection"}
-            >
-              {(direction) => (
-                <SelectItem key={direction.key}>{direction.label}</SelectItem>
-              )}
-            </Select>
-            {selectedDirection &&
-              selectedRoad &&
-              selectedRoad !== "intersection" && (
-                <div className="text-sm mt-2">
-                  <span className="font-semibold">From: </span>
-                  {roadOptions.find((road) => road.key === selectedRoad)?.label}
-                  <br />
-                  <span className="font-semibold">Direction: </span>
-                  {
-                    directionOptions.find(
-                      (dir) => dir.key === selectedDirection
-                    )?.label
-                  }
-                  <br />
-                  <span className="font-semibold">To: </span>
-                  {
-                    roadOptions.find(
-                      (road) =>
-                        road.key ===
-                        getDestinationRoad(selectedRoad, selectedDirection)
-                    )?.label
-                  }
-                </div>
-              )}
-          </div>
-        </div>
-        <div className="bg-white p-4 rounded-lg shadow-lg">
-          <h1 className="text-xl font-bold mb-2">Road Selection</h1>
+        <div className="bg-white p-4 rounded-lg shadow-lg w-72">
+          {/* <h1 className="text-xl font-bold mb-2 ">Road Selection</h1> */}
           <p className="text-sm text-gray-600 mb-2">
             Choose a road to focus on
           </p>
@@ -562,6 +507,51 @@ export default function Road3D() {
                 {roadOptions.find((road) => road.key === selectedRoad)?.label}
               </div>
             )}
+            <div className="space-y-1 text-sm">
+              <Select
+                className="max-w-xs"
+                items={directionOptions}
+                label="Turn Direction"
+                placeholder="Select direction"
+                selectedKeys={selectedDirection ? [selectedDirection] : []}
+                onSelectionChange={(keys) => {
+                  const selectedKey = Array.from(keys)[0] as string;
+                  handleDirectionSelect(selectedKey);
+                }}
+                isDisabled={!selectedRoad || selectedRoad === "intersection"}
+              >
+                {(direction) => (
+                  <SelectItem key={direction.key}>{direction.label}</SelectItem>
+                )}
+              </Select>
+              {selectedDirection &&
+                selectedRoad &&
+                selectedRoad !== "intersection" && (
+                  <div className="text-sm mt-2">
+                    <span className="font-semibold">From: </span>
+                    {
+                      roadOptions.find((road) => road.key === selectedRoad)
+                        ?.label
+                    }
+                    <br />
+                    <span className="font-semibold">Direction: </span>
+                    {
+                      directionOptions.find(
+                        (dir) => dir.key === selectedDirection
+                      )?.label
+                    }
+                    <br />
+                    <span className="font-semibold">To: </span>
+                    {
+                      roadOptions.find(
+                        (road) =>
+                          road.key ===
+                          getDestinationRoad(selectedRoad, selectedDirection)
+                      )?.label
+                    }
+                  </div>
+                )}
+            </div>
           </div>
         </div>
       </div>
